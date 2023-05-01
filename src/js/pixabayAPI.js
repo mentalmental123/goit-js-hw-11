@@ -29,6 +29,7 @@ class Pixabay {
             searchParams.append('q', searchPrompts);
             }
             const { data } = await axios.get(`?${searchParams}&page=${pageCounter}`)
+            console.log(data);
             if (pageCounter === 1 && data.hits.length) {
             Notify.success(`Hooray! We found ${data.totalHits} images.`)
             }
@@ -37,6 +38,7 @@ class Pixabay {
             if (Math.ceil(pictureTreshold) === pageCounter) {
                 Notify.failure("We're sorry, but you've reached the end of search results.");
                 refs.addMoreButton.style.display = 'none';
+                
             }
 
             console.log(data);

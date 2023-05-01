@@ -12,12 +12,10 @@ async function searchQuerrySubmitForm(evt) {
     const inputValue = await refs.input.value;
     const InputValue = await inputValue // get data from input
     const hits = await pixabay.getPictures(InputValue, PAGE_COUNTER);
-    refs.addMoreButton.style.display = 'block';
-
-
     if (!hits) {
         return 'Error';
     }
+    refs.addMoreButton.style.display = 'block';
 
     refs.imageGalerry.insertAdjacentHTML('beforeend', createGalleryMarkup(hits));
     
