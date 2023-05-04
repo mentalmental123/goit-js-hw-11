@@ -15,6 +15,7 @@ const searchParams = new URLSearchParams({
     orientation: 'horizaontal',
     safesearch: true,
     per_page: PERPAGE,
+    q: '',
 });
 
 
@@ -22,32 +23,12 @@ const searchParams = new URLSearchParams({
 class Pixabay {
     constructor() { }
     
-    async getPictures(searchPrompts, pageCounter) {
+    async getPictures() {
         try {
-            console.log(pageCounter);
-            if (searchPrompts) {
-            searchParams.append('q', searchPrompts);
-            }
-            const { data } = await axios.get(`?${searchParams}&page=${pageCounter}`)
-            console.log(data);
-            if (pageCounter === 1 && data.hits.length) {
-            Notify.success(`Hooray! We found ${data.totalHits} images.`)
-            }
-            const pictureTreshold = data.totalHits / PERPAGE;
-
-            if (Math.ceil(pictureTreshold) === pageCounter) {
-                Notify.failure("We're sorry, but you've reached the end of search results.");
-                refs.addMoreButton.style.display = 'none';
-                
-            }
-
-            console.log(data);
-            if (!data.hits.length) {
-                Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-                throw new Error('No data was found');
-            }
             
-            return data.hits;
+            const { data } = await axios.get(`?${searchParams}`)
+         
+            return data;
             
         } catch(e) {
             console.error(e.message);
@@ -57,4 +38,9 @@ class Pixabay {
 }
 
 
-export const pixabay = new Pixabay();
+const pixabay = new Pixabay();
+
+export {pixabay, searchParams};
+
+
+
